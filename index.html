@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<!-- 明智君OS package build: index = 勝ち感版 -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>明智君OS 😲©️</title>
+  <style>
+    /* ===== リセット & ベース ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #2a2a3a;
+      --accent: #7c3aed;
+      --accent-glow: rgba(124, 58, 237, 0.45);
+      --text-primary: #e8e8f0;
+      --text-muted: #6b6b80;
+      --win-color: #22d3ee;
+      --win-glow: rgba(34, 211, 238, 0.5);
+      --btn-h: 88px;
+      --radius: 18px;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100dvh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ===== 背景グリッド ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,58,237,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,58,237,0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== ラッパー ===== */
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 430px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 24px;
+    }
+
+    /* ===== ヘッダー ===== */
+    .header {
+      padding: 28px 0 10px;
+      text-align: center;
+    }
+
+    .header-emoji {
+      font-size: 2.4rem;
+      line-height: 1;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .header-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+    }
+
+    .header-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ===== ステータスバー ===== */
+    .statusbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin: 14px 0;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .statusbar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ===== ボタングリッド ===== */
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      flex: 1;
+      align-content: center;
+      margin: 10px 0;
+    }
+
+    /* ===== ボタン本体 ===== */
+    .os-btn {
+      position: relative;
+      height: var(--btn-h);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.12s ease, border-color 0.2s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .os-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .os-btn:hover::before,
+    .os-btn:focus-visible::before {
+      opacity: 1;
+    }
+
+    .os-btn:active {
+      transform: scale(0.95);
+    }
+
+    .os-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ボタン個別カラー */
+    .btn-start  { --btn-accent: #7c3aed; }
+    .btn-move   { --btn-accent: #0ea5e9; }
+    .btn-escape { --btn-accent: #f59e0b; }
+    .btn-return { --btn-accent: #10b981; }
+
+    .os-btn:hover,
+    .os-btn:focus-visible {
+      border-color: var(--btn-accent);
+      box-shadow: 0 0 18px rgba(var(--btn-accent-rgb, 124,58,237), 0.3), inset 0 0 12px rgba(var(--btn-accent-rgb, 124,58,237), 0.06);
+    }
+
+    .btn-start:hover,  .btn-start:focus-visible  { box-shadow: 0 0 18px rgba(124,58,237,0.35); }
+    .btn-move:hover,   .btn-move:focus-visible    { box-shadow: 0 0 18px rgba(14,165,233,0.35); }
+    .btn-escape:hover, .btn-escape:focus-visible  { box-shadow: 0 0 18px rgba(245,158,11,0.35); }
+    .btn-return:hover, .btn-return:focus-visible  { box-shadow: 0 0 18px rgba(16,185,129,0.35); }
+
+    .btn-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .btn-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    /* ===== 勝ちオーバーレイ ===== */
+    #win-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #win-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .win-card {
+      background: var(--surface);
+      border: 1.5px solid var(--win-color);
+      border-radius: 28px;
+      padding: 40px 36px 32px;
+      text-align: center;
+      box-shadow: 0 0 60px var(--win-glow), 0 0 120px rgba(34,211,238,0.15);
+      max-width: 320px;
+      width: 88%;
+      animation: win-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes win-pop {
+      from { transform: scale(0.6); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .win-emoji {
+      font-size: 3.2rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .win-text {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--win-color);
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 24px var(--win-glow);
+      line-height: 1.1;
+    }
+
+    .win-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 10px;
+      letter-spacing: 0.06em;
+    }
+
+    .win-pressed {
+      font-size: 0.85rem;
+      color: var(--win-color);
+      margin-top: 6px;
+      opacity: 0.85;
+    }
+
+    .win-close {
+      margin-top: 28px;
+      padding: 12px 36px;
+      border-radius: 50px;
+      border: 1.5px solid var(--win-color);
+      background: transparent;
+      color: var(--win-color);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .win-close:hover,
+    .win-close:active {
+      background: var(--win-color);
+      color: #0a0a0f;
+    }
+
+    /* ===== フッター ===== */
+    .footer {
+      text-align: center;
+      padding-top: 16px;
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    .footer strong {
+      color: #4b4b60;
+    }
+
+    /* ===== パーティクル ===== */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 200;
+      font-size: 1.4rem;
+      animation: particle-fly 0.9s ease-out forwards;
+    }
+
+    @keyframes particle-fly {
+      0%   { transform: translate(0, 0) scale(1);   opacity: 1; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(0.3); opacity: 0; }
+    }
+
+    /* ===== スキャンライン演出 ===== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.04) 3px,
+        rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+  </style>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+
+</head>
+<body>
+
+  <!-- 勝ちオーバーレイ -->
+  <div id="win-overlay" role="dialog" aria-modal="true" aria-label="勝ち">
+    <div class="win-card">
+      <span class="win-emoji">🏆</span>
+      <div class="win-text">勝ち‼️</div>
+      <div class="win-pressed" id="win-pressed-label"></div>
+      <div class="win-sub">押せた。それだけでいい。</div>
+      <button class="win-close" id="win-close-btn" onclick="closeWin()">もどる</button>
+    </div>
+  </div>
+
+  <div class="wrapper">
+
+    <!-- ヘッダー -->
+    <header class="header">
+      <span class="header-emoji">😲©️</span>
+      <div class="header-title">明智君OS</div>
+      <div class="header-subtitle">AKECHI-KUN OPERATING SYSTEM &nbsp;|&nbsp; PROTOTYPE</div>
+    </header>
+
+    <!-- ステータスバー -->
+    <div class="statusbar">
+      <span>SYS READY</span>
+      <div class="statusbar-dot"></div>
+      <span id="status-text">待機中</span>
+    </div>
+
+    <!-- ボタン4つ -->
+    <div class="btn-grid">
+
+      <button class="os-btn btn-start" onclick="pressBtn(this, '起動')" aria-label="起動">
+        <span class="btn-icon">🟢</span>
+        <span class="btn-label">起動</span>
+      </button>
+
+      <button class="os-btn btn-move" onclick="pressBtn(this, '一手')" aria-label="一手">
+        <span class="btn-icon">⚡</span>
+        <span class="btn-label">一手</span>
+      </button>
+
+      <button class="os-btn btn-escape" onclick="pressBtn(this, '退避')" aria-label="退避">
+        <span class="btn-icon">🚪</span>
+        <span class="btn-label">退避</span>
+      </button>
+
+      <button class="os-btn btn-return" onclick="pressBtn(this, '帰還')" aria-label="帰還">
+        <span class="btn-icon">🔁</span>
+        <span class="btn-label">帰還</span>
+      </button>
+
+    </div>
+
+    <!-- フッター -->
+    <footer class="footer">
+      <strong>発売元</strong> オノノケホールディングス<br>
+      <strong>販売</strong> B-City貿易<br>
+      <strong>CM</strong> 小麦粉ラジオ 📻
+    </footer>
+
+  </div>
+
+  <script>
+    const overlay   = document.getElementById('win-overlay');
+    const statusEl  = document.getElementById('status-text');
+    const pressedLb = document.getElementById('win-pressed-label');
+
+    function pressBtn(btn, label) {
+      // ステータス更新
+      statusEl.textContent = label + ' 実行中…';
+
+      // パーティクル
+      spawnParticles(btn);
+
+      // 少し間を置いて勝ち表示
+      setTimeout(() => {
+        pressedLb.textContent = '「' + label + '」を押した';
+        overlay.classList.add('show');
+        statusEl.textContent = '勝利確定';
+      }, 220);
+    }
+
+    function closeWin() {
+      overlay.classList.remove('show');
+      statusEl.textContent = '待機中';
+    }
+
+    // キーボード対応（Escape で閉じる）
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeWin();
+    });
+
+    // オーバーレイ背景クリックで閉じる
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeWin();
+    });
+
+    // パーティクル生成
+    function spawnParticles(btn) {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top  + rect.height / 2;
+      const emojis = ['✨','⭐','💫','🌟','🎉','🏆'];
+
+      for (let i = 0; i < 8; i++) {
+        const el = document.createElement('span');
+        el.className = 'particle';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        const angle = (Math.PI * 2 / 8) * i + (Math.random() - 0.5) * 0.5;
+        const dist  = 60 + Math.random() * 60;
+        el.style.left = cx + 'px';
+        el.style.top  = cy + 'px';
+        el.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+        el.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+  </script>
+
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "😲©️押せたら勝ち‼️🙃｜明智君OS",
+  "short_name": "明智君OS",
+  "description": "ToDoではない。起動・一手・退避・帰還。押せたら勝ち。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

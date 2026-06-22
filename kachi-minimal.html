@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <title>明智君OS v0.2</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #000000;
+      --surface: #0d0d0d;
+      --border: #1e1e1e;
+      --text-primary: #f0f0f0;
+      --text-muted: #666666;
+      --text-dim: #3a3a3a;
+      --accent: #e8e8e8;
+      --win-color: #ffffff;
+      --btn-bg: #111111;
+      --btn-hover: #1a1a1a;
+      --btn-active: #222222;
+      --btn-border: #2a2a2a;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP',
+                   'Yu Gothic', 'Meiryo', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
+    }
+
+    /* ======= SCREENS ======= */
+    .screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      animation: fadeIn 0.25s ease;
+    }
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ======= MAIN SCREEN ======= */
+    #screen-main {
+      gap: 0;
+    }
+
+    .title-block {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .title-main {
+      font-size: clamp(1.35rem, 5vw, 1.7rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      line-height: 1.4;
+      color: var(--text-primary);
+    }
+
+    .title-sub {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    .btn-main {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 28px 16px 22px;
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s, transform 0.08s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .btn-main:hover {
+      background: var(--btn-hover);
+      border-color: #3a3a3a;
+    }
+
+    .btn-main:active {
+      background: var(--btn-active);
+      transform: scale(0.96);
+    }
+
+    .btn-label {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-primary);
+    }
+
+    .btn-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ======= WIN SCREEN ======= */
+    #screen-win {
+      gap: 0;
+    }
+
+    .win-block {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .win-action {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .win-title {
+      font-size: clamp(2.8rem, 12vw, 4rem);
+      font-weight: 900;
+      color: var(--win-color);
+      letter-spacing: 0.04em;
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .win-msg {
+      font-size: 0.92rem;
+      color: #aaaaaa;
+      letter-spacing: 0.06em;
+      line-height: 1.8;
+    }
+
+    .win-detail {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 48px;
+      background: transparent;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .btn-back:hover {
+      border-color: #444;
+      color: var(--text-primary);
+      background: #0d0d0d;
+    }
+
+    .btn-back:active {
+      background: #1a1a1a;
+      transform: scale(0.97);
+    }
+
+    /* ======= FOOTER ======= */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 20px 20px;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .footer-line {
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      line-height: 1.9;
+    }
+
+    /* ======= FLASH OVERLAY ======= */
+    #flash {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+      transition: opacity 0.05s;
+    }
+    #flash.pop {
+      opacity: 0.06;
+      transition: opacity 0.05s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Flash effect -->
+  <div id="flash"></div>
+
+  <!-- MAIN SCREEN -->
+  <div id="screen-main" class="screen active">
+    <div class="title-block">
+      <div class="title-main">😲©️押せたら勝ち‼️🙃</div>
+      <div class="title-sub">明智君OS &nbsp;v0.2</div>
+    </div>
+
+    <div class="btn-grid">
+      <button class="btn-main" data-name="起動" data-msg="水。" onclick="win(this)">
+        <span class="btn-label">起動</span>
+        <span class="btn-sub">水。</span>
+      </button>
+      <button class="btn-main" data-name="一手" data-msg="一手だけ。" onclick="win(this)">
+        <span class="btn-label">一手</span>
+        <span class="btn-sub">一手だけ。</span>
+      </button>
+      <button class="btn-main" data-name="退避" data-msg="座る。" onclick="win(this)">
+        <span class="btn-label">退避</span>
+        <span class="btn-sub">座る。</span>
+      </button>
+      <button class="btn-main" data-name="帰還" data-msg="帰還完了。" onclick="win(this)">
+        <span class="btn-label">帰還</span>
+        <span class="btn-sub">帰還完了。</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- WIN SCREEN -->
+  <div id="screen-win" class="screen">
+    <div class="win-block">
+      <div class="win-action" id="win-action-text"></div>
+      <div class="win-title">勝ち‼️</div>
+      <div class="win-msg">押せた。それだけでいい。</div>
+      <div class="win-detail" id="win-detail-text"></div>
+    </div>
+    <button class="btn-back" onclick="back()">もどる</button>
+  </div>
+
+  <!-- FOOTER (always visible) -->
+  <div class="footer">
+    <div class="footer-line">
+      発売元：オノノケホールディングス　販売：B-City貿易　CM：小麦粉ラジオ📻
+    </div>
+  </div>
+
+  <script>
+    const flash = document.getElementById('flash');
+
+    function win(btn) {
+      const name = btn.dataset.name;
+      const msg  = btn.dataset.msg;
+
+      // flash
+      flash.classList.add('pop');
+      setTimeout(() => flash.classList.remove('pop'), 120);
+
+      // set win screen content
+      document.getElementById('win-action-text').textContent = name + ' を押した';
+      document.getElementById('win-detail-text').textContent = msg;
+
+      // switch screens
+      document.getElementById('screen-main').classList.remove('active');
+      document.getElementById('screen-win').classList.add('active');
+    }
+
+    function back() {
+      document.getElementById('screen-win').classList.remove('active');
+      document.getElementById('screen-main').classList.add('active');
+    }
+
+    // keyboard shortcut: Escape → back
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') back();
+    });
+  </script>
+
+</body>
+</html>
