@@ -1,11 +1,20 @@
 <!DOCTYPE html>
+<!-- 明智君OS v0.3 package build: iPhone home-screen tuning -->
 <!-- 明智君OS package build: index = 勝ち感版 -->
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>明智君OS 😲©️</title>
+  <title>明智君OS v0.3 😲©️</title>
   <style>
+
+    html, body, button {
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
     /* ===== リセット & ベース ===== */
     *, *::before, *::after {
       box-sizing: border-box;
@@ -347,6 +356,8 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 <body>
 
@@ -367,7 +378,7 @@
     <header class="header">
       <span class="header-emoji">😲©️</span>
       <div class="header-title">明智君OS</div>
-      <div class="header-subtitle">AKECHI-KUN OPERATING SYSTEM &nbsp;|&nbsp; PROTOTYPE</div>
+      <div class="header-subtitle">AKECHI-KUN OPERATING SYSTEM &nbsp;|&nbsp; PROTOTYPE v0.3</div>
     </header>
 
     <!-- ステータスバー -->

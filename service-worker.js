@@ -1,4 +1,4 @@
-const CACHE_NAME = 'akechi-os-v0-1';
+const CACHE_NAME = 'akechi-os-v0-3';
 const FILES_TO_CACHE = [
   './',
   './index.html',
