@@ -1,0 +1,160 @@
+/* ===== 明智君OS v0.4.2 視認性改修 ===== */
+:root {
+  --text: #f4f9ff;
+  --text-dim: #9db8c7;
+  --card-bg: rgba(4, 25, 42, 0.95);
+  --border: rgba(22, 215, 255, 0.42);
+  --border-glow: rgba(22, 215, 255, 0.72);
+  --accent: #16d7ff;
+  --accent2: #a36cff;
+  --warn: #ffc21c;
+  --success: #16ef91;
+}
+
+html, body {
+  font-size: 17px;
+  color: var(--text);
+}
+
+#header .os-title {
+  font-size: 29px;
+}
+
+#header .os-subtitle {
+  font-size: 14px;
+  color: #d7e8f2;
+}
+
+#status-bar {
+  font-size: 15px;
+  font-weight: 700;
+  color: #d7e8f2;
+}
+
+#screen-home .home-desc {
+  font-size: 17px;
+  font-weight: 600;
+  color: #d7e8f2;
+  padding: 22px 20px;
+}
+
+.mode-btn {
+  min-height: 166px;
+  border-width: 1.5px;
+}
+
+.mode-btn .btn-icon {
+  font-size: 38px;
+}
+
+.mode-btn .btn-label {
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.mode-btn .btn-sub {
+  font-size: 15px;
+  font-weight: 700;
+  color: #d7e8f2;
+}
+
+#last-used {
+  font-size: 14px;
+  font-weight: 600;
+  color: #d7e8f2;
+}
+
+.mode-badge {
+  font-size: 20px;
+  font-weight: 900;
+  padding: 9px 18px;
+}
+
+.status-card {
+  border-width: 1.5px;
+  padding: 19px 20px;
+}
+
+.status-card .card-label,
+.copy-card .copy-card-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: #d7e8f2;
+}
+
+.status-card .card-body {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f4f9ff;
+}
+
+.card-note {
+  font-size: 16px;
+  font-weight: 600;
+  color: #d7e8f2;
+}
+
+.copy-section-title {
+  font-size: 17px;
+  font-weight: 900;
+  color: #f4f9ff;
+}
+
+.copy-section-lead {
+  font-size: 15px;
+  font-weight: 600;
+  color: #d7e8f2;
+}
+
+.copy-card {
+  border-width: 1.5px;
+  padding: 17px;
+}
+
+.copy-card-agent {
+  font-size: 14px;
+  font-weight: 700;
+  color: #d7e8f2;
+}
+
+.copy-card textarea {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f4f9ff;
+  min-height: 130px;
+  border-color: rgba(22, 215, 255, 0.3);
+}
+
+.copy-btn {
+  min-height: 56px;
+  font-size: 18px;
+  font-weight: 900;
+  border-width: 1.5px;
+}
+
+.back-btn,
+#btn-back {
+  min-height: 58px;
+  font-size: 19px;
+  font-weight: 900;
+  border-width: 1.5px;
+}
+
+#footer {
+  margin-top: 44px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #d7e8f2;
+  opacity: 1;
+  line-height: 2;
+}
+
+#footer a {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 8px 12px;
+  color: #16d7ff;
+  font-size: 19px;
+  font-weight: 900;
+  text-decoration: none;
+}
