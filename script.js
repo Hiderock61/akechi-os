@@ -1,4 +1,4 @@
-/* ===== 明智君OS v0.4.1 — script.js ===== */
+/* ===== 明智君OS v0.5 — script.js ===== */
 'use strict';
 
 const MODES = {
@@ -55,25 +55,42 @@ const toast=document.getElementById('toast');
 const modeBadge=document.getElementById('mode-badge');
 const modeStatusText=document.getElementById('mode-status-text');
 const modeDescText=document.getElementById('mode-desc-text');
+const currentLocation=document.getElementById('current-location');
 const textareas={
   planning:document.getElementById('ta-planning'),
   build:document.getElementById('ta-build'),
   audit:document.getElementById('ta-audit'),
   repair:document.getElementById('ta-repair')
 };
+let activeModeId=null;
 
 function showScreen(name){
   screenHome.classList.toggle('active',name==='home');
   screenMode.classList.toggle('active',name==='mode');
 }
 function autoResize(ta){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}
+function buildPrompt(basePrompt){
+  const location=currentLocation.value.trim();
+  if(!location)return basePrompt;
+  return `${basePrompt}\n\n現在地：\n${location}`;
+}
+function renderPrompts(){
+  if(!activeModeId)return;
+  const prompts=MODES[activeModeId].prompts;
+  Object.keys(textareas).forEach(key=>{
+    textareas[key].value=buildPrompt(prompts[key]);
+    autoResize(textareas[key]);
+  });
+}
 function openMode(id){
   const m=MODES[id]; if(!m)return;
+  activeModeId=id;
+  currentLocation.value='';
   modeBadge.textContent=m.icon+'  '+m.label;
   modeBadge.className='mode-badge '+m.badgeClass;
   modeStatusText.textContent=m.status;
   modeDescText.textContent=m.description;
-  Object.keys(textareas).forEach(key=>{textareas[key].value=m.prompts[key];autoResize(textareas[key]);});
+  renderPrompts();
   try{localStorage.setItem('lastMode',id);localStorage.setItem('lastUsedAt',new Date().toISOString());}catch(_){ }
   showScreen('mode'); window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -94,6 +111,7 @@ function bindEvents(){
   ['planning','build','audit','repair'].forEach(key=>document.getElementById('btn-copy-'+key).addEventListener('click',()=>copyText(textareas[key].value)));
   document.getElementById('btn-back').addEventListener('click',backHome);
   document.getElementById('btn-back-top').addEventListener('click',backHome);
+  currentLocation.addEventListener('input',renderPrompts);
 }
 function init(){bindEvents();renderLastUsed();showScreen('home');}
 document.addEventListener('DOMContentLoaded',init);
