@@ -1,4 +1,4 @@
-/* ===== 明智君OS v0.5 — script.js ===== */
+/* ===== 明智君OS v0.5.1 — script.js ===== */
 'use strict';
 
 const MODES = {
@@ -106,12 +106,28 @@ function showToast(){toast.classList.add('show');clearTimeout(toastTimer);toastT
 function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast();}
 function copyText(text){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(showToast).catch(()=>fallbackCopy(text));}else fallbackCopy(text);}
 function backHome(){showScreen('home');renderLastUsed();window.scrollTo({top:0,behavior:'smooth'});}
+function moveToPrompts(){
+  renderPrompts();
+  currentLocation.blur();
+  const firstCard=document.getElementById('first-ai-card');
+  if(firstCard){
+    window.setTimeout(()=>firstCard.scrollIntoView({behavior:'smooth',block:'start'}),120);
+  }
+}
+
 function bindEvents(){
   document.querySelectorAll('.mode-btn').forEach(btn=>btn.addEventListener('click',()=>openMode(btn.dataset.mode)));
   ['planning','build','audit','repair'].forEach(key=>document.getElementById('btn-copy-'+key).addEventListener('click',()=>copyText(textareas[key].value)));
   document.getElementById('btn-back').addEventListener('click',backHome);
   document.getElementById('btn-back-top').addEventListener('click',backHome);
+  document.getElementById('btn-make-prompts').addEventListener('click',moveToPrompts);
   currentLocation.addEventListener('input',renderPrompts);
+  currentLocation.addEventListener('keydown',event=>{
+    if(event.key==='Enter'){
+      event.preventDefault();
+      moveToPrompts();
+    }
+  });
 }
 function init(){bindEvents();renderLastUsed();showScreen('home');}
 document.addEventListener('DOMContentLoaded',init);

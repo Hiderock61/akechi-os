@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0a0a0f" />
-  <meta name="description" content="地上に降りたAIの4ボタンリモコン — 明智君OS v0.5" />
-  <title>明智君OS v0.5</title>
+  <meta name="description" content="地上に降りたAIの4ボタンリモコン — 明智君OS v0.5.1" />
+  <title>明智君OS v0.5.1</title>
   <link rel="stylesheet" href="style.css?v=041" />
   <link rel="stylesheet" href="visibility.css?v=042" />
-  <link rel="stylesheet" href="current-location.css?v=050" />
+  <link rel="stylesheet" href="current-location.css?v=051" />
 </head>
 <body>
 <div id="app">
   <header id="header">
-    <div class="os-title">明智君OS v0.5</div>
+    <div class="os-title">明智君OS v0.5.1</div>
     <div class="os-subtitle">地上に降りたAIの4ボタンリモコン</div>
   </header>
 
@@ -69,13 +69,14 @@
         placeholder="例：GitHubへ上げたが画面が変わらない"
       />
       <div class="current-location-note">任意・一行だけ。保存しません。</div>
+      <button id="btn-make-prompts" type="button">この現在地で問いを作る</button>
     </div>
 
     <div class="divider"></div>
     <div class="copy-section-title">AI制作班へ渡す問い</div>
     <div class="copy-section-lead">現在地を載せて、必要な仕事だけコピー。</div>
 
-    <div class="copy-card planning">
+    <div id="first-ai-card" class="copy-card planning">
       <div class="copy-card-label">🧠 設計に投げる</div>
       <div class="copy-card-agent">ChatGPT / 明智君</div>
       <textarea id="ta-planning" readonly></textarea>
@@ -107,12 +108,12 @@
   </section>
 
   <footer id="footer">
-    明智君OS v0.5 — 地上AIの4ボタンリモコン<br />
+    明智君OS v0.5.1 — 地上AIの4ボタンリモコン<br />
     <a href="/">ヒデロツく本館へ戻る</a>
   </footer>
 </div>
 
 <div id="toast">コピーしました。</div>
-<script src="script.js?v=050"></script>
+<script src="script.js?v=051"></script>
 </body>
 </html>
