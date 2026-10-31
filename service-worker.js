@@ -1,7 +1,7 @@
 /* 明智君OS v0.5.1: scoped offline shell; never evict other GitHub Pages app caches. */
 'use strict';
 const PREFIX = 'akechi-os-';
-const CACHE_NAME = PREFIX + 'v051-shell-2';
+const CACHE_NAME = PREFIX + 'v051-shell-3';
 const FILES_TO_CACHE = [
   './',
   './index.html',
@@ -9,7 +9,7 @@ const FILES_TO_CACHE = [
   './style.css?v=041',
   './visibility.css?v=042',
   './current-location.css?v=051',
-  './script.js?v=051',
+  './script.js?v=051-safe1101',
   './icon-192.png',
   './icon-512.png'
 ];
