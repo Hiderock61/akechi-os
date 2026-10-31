@@ -102,9 +102,24 @@ function renderLastUsed(){
   }catch(_){ }
 }
 let toastTimer=null;
-function showToast(){toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1800);}
-function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast();}
-function copyText(text){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(showToast).catch(()=>fallbackCopy(text));}else fallbackCopy(text);}
+function showToast(message='コピーしました。'){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),1800);}
+function fallbackCopy(text){
+ const ta=document.createElement('textarea');
+ ta.value=text;ta.style.cssText='position:fixed;opacity:0';
+ document.body.appendChild(ta);ta.focus();ta.select();
+ let copied=false;
+ try{copied=typeof document.execCommand==='function'&&document.execCommand('copy')===true;}catch(_){copied=false;}
+ ta.remove();
+ if(copied)showToast();
+ else showToast('自動コピーできませんでした。上の文章欄を長押しして手動コピーしてください。');
+ return copied;
+}
+function copyText(text){
+ if(navigator.clipboard?.writeText&&window.isSecureContext){
+  return navigator.clipboard.writeText(text).then(()=>{showToast();return true;}).catch(()=>fallbackCopy(text));
+ }
+ return Promise.resolve(fallbackCopy(text));
+}
 function backHome(){showScreen('home');renderLastUsed();window.scrollTo({top:0,behavior:'smooth'});}
 function moveToPrompts(){
   renderPrompts();
