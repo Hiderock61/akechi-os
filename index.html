@@ -6,6 +6,8 @@
   <meta name="theme-color" content="#0a0a0f" />
   <meta name="description" content="地上に降りたAIの4ボタンリモコン — 明智君OS v0.5.1" />
   <title>明智君OS v0.5.1</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="style.css?v=041" />
   <link rel="stylesheet" href="visibility.css?v=042" />
   <link rel="stylesheet" href="current-location.css?v=051" />
@@ -115,5 +117,14 @@
 
 <div id="toast">コピーしました。</div>
 <script src="script.js?v=051"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(() => {
+      /* Offline install unavailable; ordinary online buttons still work. */
+    });
+  });
+}
+</script>
 </body>
 </html>
